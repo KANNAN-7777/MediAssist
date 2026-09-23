@@ -1,0 +1,561 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(25, 183, 200, 0.06), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(8, 127, 145, 0.05), transparent 25%),
+    #f4fbfc;
+  color: #082b3a;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------------------------------------------------------
+   GLOBAL ELEMENTS
+------------------------------------------------------- */
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+img {
+  max-width: 100%;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(25, 183, 200, 0.25);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------------
+   GLASSMORPHISM
+------------------------------------------------------- */
+
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 32px rgba(8, 43, 58, 0.06);
+}
+
+.glass-dark {
+  background: rgba(8, 43, 58, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(25, 183, 200, 0.2);
+  box-shadow: 0 20px 50px rgba(6, 44, 59, 0.3);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(25, 183, 200, 0.14);
+  box-shadow: 0 10px 30px rgba(8, 43, 58, 0.07);
+}
+
+.glass-panel {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(244, 251, 252, 0.7)
+    );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(25, 183, 200, 0.18);
+  box-shadow: 0 15px 35px rgba(25, 183, 200, 0.1);
+}
+
+/* -------------------------------------------------------
+   HEALTHCARE CARD EFFECTS
+------------------------------------------------------- */
+
+.health-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.health-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(25, 183, 200, 0.28);
+  box-shadow: 0 18px 40px rgba(8, 43, 58, 0.1);
+}
+
+.health-card-soft {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.health-card-soft:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(8, 43, 58, 0.08);
+}
+
+/* -------------------------------------------------------
+   GRADIENTS
+------------------------------------------------------- */
+
+.text-gradient-teal {
+  background: linear-gradient(
+    135deg,
+    #082b3a 0%,
+    #087f91 45%,
+    #19b7c8 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-light {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #baf7f8 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-medical-gradient {
+  background: linear-gradient(
+    135deg,
+    #056071 0%,
+    #087f91 50%,
+    #19b7c8 100%
+  );
+}
+
+.bg-soft-teal {
+  background: linear-gradient(
+    135deg,
+    #f7fdfe 0%,
+    #eaf9fa 100%
+  );
+}
+
+/* -------------------------------------------------------
+   GLOW
+------------------------------------------------------- */
+
+.glow-teal {
+  box-shadow:
+    0 0 35px -8px rgba(25, 183, 200, 0.45),
+    0 12px 30px rgba(8, 43, 58, 0.08);
+}
+
+.glow-soft {
+  box-shadow: 0 10px 35px rgba(25, 183, 200, 0.12);
+}
+
+/* -------------------------------------------------------
+   3D UTILITIES
+------------------------------------------------------- */
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.hover-3d {
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+
+.hover-3d:hover {
+  transform: translateY(-5px) rotateX(1deg) rotateY(-1deg);
+  box-shadow: 0 20px 45px rgba(8, 43, 58, 0.1);
+}
+
+/* -------------------------------------------------------
+   NAVIGATION
+------------------------------------------------------- */
+
+.active-nav-item {
+  color: #19b7c8;
+  font-weight: 600;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: #19b7c8;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* -------------------------------------------------------
+   BUTTON HELPERS
+------------------------------------------------------- */
+
+.btn-teal {
+  background: linear-gradient(
+    135deg,
+    #087f91,
+    #19b7c8
+  );
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(8, 127, 145, 0.2);
+}
+
+.btn-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(8, 127, 145, 0.28);
+}
+
+.btn-outline-teal {
+  border: 1px solid rgba(8, 127, 145, 0.25);
+  color: #087f91;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.btn-outline-teal:hover {
+  border-color: rgba(25, 183, 200, 0.5);
+  background: #eaf9fa;
+  transform: translateY(-2px);
+}
+
+/* -------------------------------------------------------
+   FORM ELEMENTS
+------------------------------------------------------- */
+
+input,
+select,
+textarea {
+  color: #082b3a;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8ca0a6;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* -------------------------------------------------------
+   STATUS COLORS
+------------------------------------------------------- */
+
+.status-available {
+  color: #13865f;
+  background: rgba(24, 168, 117, 0.1);
+}
+
+.status-unavailable {
+  color: #c74c58;
+  background: rgba(230, 93, 103, 0.1);
+}
+
+.status-pending {
+  color: #a06b11;
+  background: rgba(229, 169, 61, 0.12);
+}
+
+/* -------------------------------------------------------
+   CUSTOM SCROLLBAR
+------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4fbfc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(25, 183, 200, 0.3);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(25, 183, 200, 0.6);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(25, 183, 200, 0.3) #f4fbfc;
+}
+
+/* -------------------------------------------------------
+   SELECTION
+------------------------------------------------------- */
+
+::selection {
+  background: rgba(25, 183, 200, 0.2);
+  color: #056071;
+}
+
+/* -------------------------------------------------------
+   MOBILE
+------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  body {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(25, 183, 200, 0.06),
+        transparent 30%
+      ),
+      #f4fbfc;
+  }
+
+  .glass,
+  .glass-card,
+  .glass-panel {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .health-card:hover,
+  .health-card-soft:hover,
+  .hover-3d:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* -------------------------------------------------------
+   REDUCED MOTION ACCESSIBILITY
+------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   TOP DOCTORS - SMOOTH PREMIUM HOVER
+========================================================= */
+
+.doctor-card {
+  transform: translate3d(0, 0, 0) scale(1);
+
+  box-shadow:
+    0 6px 24px rgba(8, 43, 58, 0.06);
+
+  transition:
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 1.2s ease;
+
+  will-change: transform, box-shadow;
+}
+
+.doctor-card:hover {
+  transform: translate3d(0, -9px, 0) scale(1.012);
+
+  box-shadow:
+    0 22px 48px rgba(8, 127, 145, 0.14);
+
+  border-color:
+    rgba(25, 183, 200, 0.45);
+}
+
+/* -------------------------------------------------------
+   DOCTOR IMAGE
+------------------------------------------------------- */
+
+.doctor-card-image {
+  transform: scale(1);
+
+  transition:
+    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  will-change: transform;
+}
+
+.doctor-card:hover .doctor-card-image {
+  transform: scale(1.045);
+}
+
+/* -------------------------------------------------------
+   IMAGE OVERLAY
+------------------------------------------------------- */
+
+.doctor-card-overlay {
+  opacity: 0.6;
+
+  transition:
+    opacity 1.2s ease;
+}
+
+.doctor-card:hover .doctor-card-overlay {
+  opacity: 0.82;
+}
+
+/* -------------------------------------------------------
+   AVAILABLE BADGE
+------------------------------------------------------- */
+
+.doctor-card-badge {
+  transform: translate3d(0, 0, 0);
+
+  transition:
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.doctor-card:hover .doctor-card-badge {
+  transform: translate3d(0, -3px, 0);
+}
+
+/* -------------------------------------------------------
+   HOVER ICON
+------------------------------------------------------- */
+
+.doctor-card-icon {
+  opacity: 0;
+
+  transform:
+    translate3d(0, 8px, 0)
+    scale(0.92);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+
+  pointer-events: none;
+}
+
+.doctor-card:hover .doctor-card-icon {
+  opacity: 1;
+
+  transform:
+    translate3d(0, 0, 0)
+    scale(1);
+}
+
+/* -------------------------------------------------------
+   DOCTOR CARD REDUCED MOTION
+------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .doctor-card,
+  .doctor-card-image,
+  .doctor-card-overlay,
+  .doctor-card-badge,
+  .doctor-card-icon {
+    transition: none !important;
+  }
+}
+
+
+/* =========================================
+   BANNER ANIMATION TEST
+========================================= */
+
+.banner-section {
+  animation: bannerEntrance 1s ease-out;
+}
+
+.banner-section img {
+  animation: bannerImageFloat 2.5s ease-in-out infinite;
+}
+
+@keyframes bannerEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bannerImageFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
