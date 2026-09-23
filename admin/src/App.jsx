@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
+import Landing from './pages/Landing'
+import Login from './pages/Login'
 import ToastProvider from './components/ToastProvider'
 
 import { AdminContext } from './context/AdminContext'
 import { DoctorContext } from './context/DoctorContext'
-
-import UnifiedLogin from './pages/UnifiedLogin'
 
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
@@ -79,32 +79,29 @@ const App = () => {
 
   return (
     <>
-
       {/* GLOBAL TOAST */}
       <ToastProvider />
 
       <Routes>
 
-        {/* ================= LOGIN ================= */}
+        {/* ================= LANDING PAGE ================= */}
 
         <Route
           path="/"
-          element={<UnifiedLogin />}
+          element={<Landing />}
         />
 
-        <Route
-          path="/login"
-          element={<UnifiedLogin />}
-        />
+
+        {/* ================= ADMIN / DOCTOR LOGIN ================= */}
 
         <Route
           path="/admin-login"
-          element={<UnifiedLogin />}
+          element={<Login role="Admin" />}
         />
 
         <Route
           path="/doctor-login"
-          element={<UnifiedLogin />}
+          element={<Login role="Doctor" />}
         />
 
 
@@ -226,7 +223,6 @@ const App = () => {
         />
 
       </Routes>
-
     </>
   )
 }

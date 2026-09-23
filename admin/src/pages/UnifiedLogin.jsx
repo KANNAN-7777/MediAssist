@@ -6,9 +6,6 @@ import { toast } from 'react-toastify'
 import { AdminContext } from '../context/AdminContext'
 import { DoctorContext } from '../context/DoctorContext'
 
-const USER_APP_URL =
-  import.meta.env.VITE_USER_APP_URL || 'http://localhost:5173'
-
 const roles = [
   {
     id: 'Admin',
@@ -21,12 +18,6 @@ const roles = [
     title: 'Doctor',
     description: 'Manage appointments and patient consultations',
     short: 'D'
-  },
-  {
-    id: 'User',
-    title: 'Patient',
-    description: 'Book appointments and manage your healthcare',
-    short: 'P'
   }
 ]
 
@@ -37,9 +28,6 @@ const UnifiedLogin = () => {
   const { setDToken } = useContext(DoctorContext)
 
   const [role, setRole] = useState('Admin')
-  const [mode, setMode] = useState('Login')
-
-  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -47,10 +35,8 @@ const UnifiedLogin = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setName('')
     setEmail('')
     setPassword('')
-    setMode('Login')
   }, [role])
 
   const handleRoleChange = (selectedRole) => {
@@ -58,161 +44,98 @@ const UnifiedLogin = () => {
   }
 
   const handleSubmit = async (event) => {
-  event.preventDefault()
+    event.preventDefault()
 
-  if (loading) return
+    if (loading) return
 
-  if (!email.trim() || !password.trim()) {
-    toast.error('Please enter email and password', {
-      autoClose: 3000
-    })
-    return
-  }
-
-  if (role === 'User' && mode === 'Sign Up' && !name.trim()) {
-    toast.error('Please enter your name', {
-      autoClose: 3000
-    })
-    return
-  }
-
-  try {
-    setLoading(true)
-
-    if (role === 'Admin') {
-      const { data } = await axios.post(
-        backendUrl + '/api/admin/login',
-        {
-          email,
-          password
-        }
-      )
-
-      if (data.success) {
-        localStorage.removeItem('dToken')
-        setDToken('')
-
-        localStorage.setItem('aToken', data.token)
-        setAToken(data.token)
-
-        toast.success('Admin login successful', {
-          autoClose: 3000
-        })
-
-        setTimeout(() => {
-          navigate('/admin-dashboard', {
-            replace: true
-          })
-        }, 1200)
-      } else {
-        toast.error(data.message, {
-          autoClose: 3000
-        })
-      }
-    }
-
-    if (role === 'Doctor') {
-      const { data } = await axios.post(
-        backendUrl + '/api/doctor/login',
-        {
-          email,
-          password
-        }
-      )
-
-      if (data.success) {
-        localStorage.removeItem('aToken')
-        setAToken('')
-
-        localStorage.setItem('dToken', data.token)
-        setDToken(data.token)
-
-        toast.success('Doctor login successful', {
-          autoClose: 3000
-        })
-
-        setTimeout(() => {
-          navigate('/doctor-dashboard', {
-            replace: true
-          })
-        }, 1200)
-      } else {
-        toast.error(data.message, {
-          autoClose: 3000
-        })
-      }
-    }
-
-    if (role === 'User') {
-      if (mode === 'Sign Up') {
-        const { data } = await axios.post(
-          backendUrl + '/api/user/register',
-          {
-            name,
-            email,
-            password
-          }
-        )
-
-        if (data.success) {
-          toast.success(
-            data.message || 'Account created successfully',
-            {
-              autoClose: 3000
-            }
-          )
-
-          setTimeout(() => {
-            window.location.href =
-              `${USER_APP_URL}/login?token=${encodeURIComponent(data.token)}`
-          }, 1200)
-        } else {
-          toast.error(data.message, {
-            autoClose: 3000
-          })
-        }
-      } else {
-        const { data } = await axios.post(
-          backendUrl + '/api/user/login',
-          {
-            email,
-            password
-          }
-        )
-
-        if (data.success) {
-          toast.success(
-            data.message || 'Login successful',
-            {
-              autoClose: 3000
-            }
-          )
-
-          setTimeout(() => {
-            window.location.href =
-              `${USER_APP_URL}/login?token=${encodeURIComponent(data.token)}`
-          }, 1200)
-        } else {
-          toast.error(data.message, {
-            autoClose: 3000
-          })
-        }
-      }
-    }
-  } catch (error) {
-    console.log('Login Error:', error)
-
-    toast.error(
-      error.response?.data?.message ||
-      'Something went wrong',
-      {
+    if (!email.trim() || !password.trim()) {
+      toast.error('Please enter email and password', {
         autoClose: 3000
+      })
+      return
+    }
+
+    try {
+      setLoading(true)
+
+      if (role === 'Admin') {
+        const { data } = await axios.post(
+          backendUrl + '/api/admin/login',
+          {
+            email,
+            password
+          }
+        )
+
+        if (data.success) {
+          localStorage.removeItem('dToken')
+          setDToken('')
+
+          localStorage.setItem('aToken', data.token)
+          setAToken(data.token)
+
+          toast.success('Admin login successful', {
+            autoClose: 3000
+          })
+
+          setTimeout(() => {
+            navigate('/admin-dashboard', {
+              replace: true
+            })
+          }, 1200)
+        } else {
+          toast.error(data.message, {
+            autoClose: 3000
+          })
+        }
       }
-    )
-  } finally {
-    setLoading(false)
+
+      if (role === 'Doctor') {
+        const { data } = await axios.post(
+          backendUrl + '/api/doctor/login',
+          {
+            email,
+            password
+          }
+        )
+
+        if (data.success) {
+          localStorage.removeItem('aToken')
+          setAToken('')
+
+          localStorage.setItem('dToken', data.token)
+          setDToken(data.token)
+
+          toast.success('Doctor login successful', {
+            autoClose: 3000
+          })
+
+          setTimeout(() => {
+            navigate('/doctor-dashboard', {
+              replace: true
+            })
+          }, 1200)
+        } else {
+          toast.error(data.message, {
+            autoClose: 3000
+          })
+        }
+      }
+    } catch (error) {
+      console.log('Login Error:', error)
+
+      toast.error(
+        error.response?.data?.message ||
+          'Something went wrong',
+        {
+          autoClose: 3000
+        }
+      )
+    } finally {
+      setLoading(false)
+    }
   }
-}
+
   const selectedRole = roles.find(
     (item) => item.id === role
   )
@@ -272,6 +195,15 @@ const UnifiedLogin = () => {
         .ma-spin {
           animation: maSpin .8s linear infinite;
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ma-fade-up,
+          .ma-float,
+          .ma-pulse,
+          .ma-spin {
+            animation: none !important;
+          }
+        }
       `}</style>
 
       <div className="relative min-h-screen overflow-hidden bg-[#f3fbfd] px-4 py-6 sm:px-6 lg:px-10">
@@ -286,6 +218,8 @@ const UnifiedLogin = () => {
         <div className="mx-auto flex min-h-[calc(100vh-48px)] max-w-6xl items-center justify-center">
 
           <div className="ma-fade-up grid w-full overflow-hidden rounded-[30px] border border-[#dceff2] bg-white shadow-[0_30px_90px_rgba(8,127,145,0.13)] lg:grid-cols-[.85fr_1.15fr]">
+
+            {/* LEFT SIDE */}
 
             <div className="relative hidden overflow-hidden bg-[#06202d] p-10 lg:flex lg:min-h-[650px] lg:flex-col lg:justify-between">
 
@@ -306,10 +240,13 @@ const UnifiedLogin = () => {
                 <div className="mt-20 max-w-md">
 
                   <div className="inline-flex items-center gap-2 rounded-full border border-[#19b7c8]/20 bg-[#19b7c8]/10 px-3 py-1.5">
+
                     <span className="h-1.5 w-1.5 rounded-full bg-[#19b7c8]" />
+
                     <span className="text-[10px] font-bold uppercase tracking-[.18em] text-[#19b7c8]">
-                      Smart Healthcare
+                      Staff Portal
                     </span>
+
                   </div>
 
                   <h1 className="mt-5 text-4xl font-bold leading-tight text-white">
@@ -321,20 +258,20 @@ const UnifiedLogin = () => {
                   </h1>
 
                   <p className="mt-6 max-w-sm text-sm leading-7 text-white/55">
-                    One secure gateway for administrators,
-                    doctors and patients across the MediAssist
-                    healthcare platform.
+                    Secure access for MediAssist administrators
+                    and doctors to manage connected healthcare
+                    operations.
                   </p>
 
                 </div>
+
               </div>
 
-              <div className="relative z-10 grid grid-cols-3 gap-3">
+              <div className="relative z-10 grid grid-cols-2 gap-3">
 
                 {[
                   ['01', 'Admin'],
-                  ['02', 'Doctor'],
-                  ['03', 'Patient']
+                  ['02', 'Doctor']
                 ].map(([number, label]) => (
                   <div
                     key={label}
@@ -351,22 +288,27 @@ const UnifiedLogin = () => {
                 ))}
 
               </div>
+
             </div>
+
+            {/* RIGHT SIDE */}
 
             <div className="p-5 sm:p-8 lg:p-10">
 
               <div className="lg:hidden">
+
                 <img
                   src="/mediassist-logo.png"
                   alt="MediAssist"
                   className="w-44 object-contain"
                 />
+
               </div>
 
               <div className="mt-6 lg:mt-0">
 
                 <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#087f91]">
-                  MediAssist Portal
+                  MediAssist Staff Portal
                 </p>
 
                 <h2 className="mt-2 text-2xl font-bold text-[#082b3a] sm:text-3xl">
@@ -374,14 +316,17 @@ const UnifiedLogin = () => {
                 </h2>
 
                 <p className="mt-2 text-sm text-[#71858b]">
-                  Choose your role and continue securely.
+                  Choose your workspace and continue securely.
                 </p>
 
               </div>
 
-              <div className="mt-7 grid grid-cols-3 gap-2 rounded-2xl bg-[#f3f9fa] p-1.5">
+              {/* ROLE SELECTOR */}
+
+              <div className="mt-7 grid grid-cols-2 gap-2 rounded-2xl bg-[#f3f9fa] p-1.5">
 
                 {roles.map((item) => {
+
                   const active = role === item.id
 
                   return (
@@ -422,6 +367,8 @@ const UnifiedLogin = () => {
 
               </div>
 
+              {/* SELECTED ROLE */}
+
               <div className="mt-5 rounded-2xl border border-[#dceff2] bg-[#f8fcfd] p-4">
 
                 <div className="flex items-center gap-3">
@@ -431,6 +378,7 @@ const UnifiedLogin = () => {
                   </div>
 
                   <div>
+
                     <p className="text-xs font-bold text-[#082b3a]">
                       {selectedRole?.title} Portal
                     </p>
@@ -438,64 +386,22 @@ const UnifiedLogin = () => {
                     <p className="mt-0.5 text-[10px] leading-5 text-[#7b9096]">
                       {selectedRole?.description}
                     </p>
+
                   </div>
 
                 </div>
 
               </div>
 
-              {role === 'User' && (
-                <div className="mt-5 flex rounded-xl bg-[#f3f9fa] p-1">
-
-                  <button
-                    type="button"
-                    onClick={() => setMode('Login')}
-                    className={`flex-1 rounded-lg py-2.5 text-xs font-bold transition-all ${
-                      mode === 'Login'
-                        ? 'bg-white text-[#087f91] shadow-sm'
-                        : 'text-[#71858b]'
-                    }`}
-                  >
-                    Login
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setMode('Sign Up')}
-                    className={`flex-1 rounded-lg py-2.5 text-xs font-bold transition-all ${
-                      mode === 'Sign Up'
-                        ? 'bg-white text-[#087f91] shadow-sm'
-                        : 'text-[#71858b]'
-                    }`}
-                  >
-                    Sign Up
-                  </button>
-
-                </div>
-              )}
+              {/* LOGIN FORM */}
 
               <form
                 onSubmit={handleSubmit}
                 className="mt-6 space-y-4"
               >
 
-                {role === 'User' && mode === 'Sign Up' && (
-                  <div>
-                    <label className="mb-1.5 block text-xs font-bold text-[#31515b]">
-                      Full Name
-                    </label>
-
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                      placeholder="Enter your name"
-                      className="h-12 w-full rounded-xl border border-[#d9e9ec] bg-white px-4 text-sm text-[#082b3a] outline-none transition-all placeholder:text-[#a0afb3] focus:border-[#19b7c8] focus:ring-4 focus:ring-[#19b7c8]/10"
-                    />
-                  </div>
-                )}
-
                 <div>
+
                   <label className="mb-1.5 block text-xs font-bold text-[#31515b]">
                     Email Address
                   </label>
@@ -506,11 +412,14 @@ const UnifiedLogin = () => {
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="Enter your email"
                     autoComplete="email"
+                    required
                     className="h-12 w-full rounded-xl border border-[#d9e9ec] bg-white px-4 text-sm text-[#082b3a] outline-none transition-all placeholder:text-[#a0afb3] focus:border-[#19b7c8] focus:ring-4 focus:ring-[#19b7c8]/10"
                   />
+
                 </div>
 
                 <div>
+
                   <label className="mb-1.5 block text-xs font-bold text-[#31515b]">
                     Password
                   </label>
@@ -522,11 +431,8 @@ const UnifiedLogin = () => {
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
                       placeholder="Enter your password"
-                      autoComplete={
-                        mode === 'Sign Up'
-                          ? 'new-password'
-                          : 'current-password'
-                      }
+                      autoComplete="current-password"
+                      required
                       className="h-12 w-full rounded-xl border border-[#d9e9ec] bg-white px-4 pr-16 text-sm text-[#082b3a] outline-none transition-all placeholder:text-[#a0afb3] focus:border-[#19b7c8] focus:ring-4 focus:ring-[#19b7c8]/10"
                     />
 
@@ -541,6 +447,7 @@ const UnifiedLogin = () => {
                     </button>
 
                   </div>
+
                 </div>
 
                 <button
@@ -556,9 +463,7 @@ const UnifiedLogin = () => {
                     </>
                   ) : (
                     <>
-                      {mode === 'Sign Up' && role === 'User'
-                        ? 'Create Account'
-                        : `Login as ${role}`}
+                      Login as {role}
 
                       <span className="text-base transition-transform duration-300 group-hover:translate-x-1">
                         →
@@ -583,7 +488,9 @@ const UnifiedLogin = () => {
             </div>
 
           </div>
+
         </div>
+
       </div>
     </>
   )
