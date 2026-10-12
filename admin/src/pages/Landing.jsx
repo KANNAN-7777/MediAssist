@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,23 +15,24 @@ const Landing = () => {
       if (window.innerWidth < 768) return
 
       const rect = visual.getBoundingClientRect()
+      const centerX = rect.width / 2
+      const centerY = rect.height / 2
+
+      if (!centerX || !centerY) return
 
       const x = event.clientX - rect.left
       const y = event.clientY - rect.top
 
-      const centerX = rect.width / 2
-      const centerY = rect.height / 2
-
-      const rotateY = ((x - centerX) / centerX) * 8
-      const rotateX = ((y - centerY) / centerY) * -8
+      const rotateY = ((x - centerX) / centerX) * 1.8
+      const rotateX = ((y - centerY) / centerY) * -1.8
 
       visual.style.transform =
-        `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`
+        `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
     }
 
     const handleMouseLeave = () => {
       visual.style.transform =
-        'perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0px)'
+        'perspective(1400px) rotateX(0deg) rotateY(0deg)'
     }
 
     visual.addEventListener('mousemove', handleMouseMove)
@@ -43,821 +45,442 @@ const Landing = () => {
   }, [])
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[#f3fbfd]">
+    <div className="mediassist-landing relative min-h-screen overflow-hidden bg-[#f3fbfd] text-[#082b3a]">
 
-      {/* Background Glow */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-
-        <div
-          className="
-            absolute
-            -left-32
-            -top-32
-            h-80
-            w-80
-            rounded-full
-            bg-[#19b7c8]/10
-            blur-3xl
-          "
-        />
-
-        <div
-          className="
-            absolute
-            -right-32
-            top-1/3
-            h-96
-            w-96
-            rounded-full
-            bg-[#087f91]/10
-            blur-3xl
-          "
-        />
-
-        <div
-          className="
-            absolute
-            bottom-[-180px]
-            left-1/3
-            h-96
-            w-96
-            rounded-full
-            bg-[#19b7c8]/10
-            blur-3xl
-          "
-        />
-
+      {/* Background atmosphere */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-40 -top-40 h-[480px] w-[480px] rounded-full bg-[#19b7c8]/10 blur-[110px]" />
+        <div className="absolute -right-[120px] top-[10%] h-[600px] w-[600px] rounded-full bg-[#19b7c8]/15 blur-[120px]" />
+        <div className="absolute bottom-[-200px] left-[35%] h-[450px] w-[450px] rounded-full bg-[#087f91]/10 blur-[100px]" />
       </div>
 
-      {/* Header */}
-      <header
-        className="
-          relative
-          z-20
-          border-b
-          border-[#dceff2]
-          bg-white/80
-          backdrop-blur-xl
-        "
+      {/* Flowing hospital artwork */}
+      <div
+        ref={visualRef}
+        className="hospital-flow pointer-events-none absolute z-0"
+        aria-hidden="true"
       >
+        <img
+          src="/Gemini_Generated_Image_a66gyja66gyja66g.png"
+          alt=""
+          className="hospital-flow-image"
+          fetchPriority="high"
+        />
 
-        <div
-          className="
-            mx-auto
-            flex
-            max-w-7xl
-            items-center
-            justify-between
-            px-6
-            py-4
-          "
-        >
+        {/* Soft cover for the Gemini sparkle */}
+        <div className="hospital-watermark-cover" />
 
-          <img
-            src="/mediassist-logo.png"
-            alt="MediAssist"
-            className="
-              h-11
-              w-auto
-              transition-transform
-              duration-500
-              hover:scale-105
-            "
-          />
+        {/* Subtle lighting */}
+        <div className="hospital-light" />
 
-          <div
-            className="
-              rounded-full
-              border
-              border-[#ccecef]
-              bg-[#e8f8fa]
-              px-4
-              py-2
-              text-xs
-              font-bold
-              text-[#087f91]
-            "
-          >
-            STAFF PORTAL
-          </div>
+        {/* Decorative motion */}
+        <span className="hospital-dot hospital-dot-one" />
+        <span className="hospital-dot hospital-dot-two" />
+      </div>
 
-        </div>
+      {/* Main content */}
+      <main className="relative z-10 mx-auto flex min-h-screen max-w-[1660px] items-center px-6 py-12 sm:px-10 lg:px-[7.3%]">
+        <section className="grid w-full items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
 
-      </header>
+          {/* Left content */}
+          <div className="relative z-20">
 
-      {/* Main */}
-      <main className="relative z-10 mx-auto max-w-7xl px-6">
-
-        <section
-          className="
-            grid
-            min-h-[calc(100vh-76px)]
-            items-center
-            gap-12
-            py-12
-            lg:grid-cols-[1fr_0.9fr]
-            lg:gap-20
-          "
-        >
-
-          {/* LEFT */}
-          <div className="text-center lg:text-left">
-
-            {/* Badge */}
-            <div
-              className="
-                mb-6
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                border
-                border-[#ccecef]
-                bg-white/80
-                px-4
-                py-2
-                text-xs
-                font-bold
-                text-[#087f91]
-                shadow-sm
-                backdrop-blur
-                animate-fade-in
-              "
-            >
-
-              <span
-                className="
-                  h-2
-                  w-2
-                  animate-pulse
-                  rounded-full
-                  bg-[#18a875]
-                "
-              />
-
-              MediAssist Healthcare Platform
-
-            </div>
-
-            {/* Heading */}
-            <h1
-              className="
-                text-4xl
-                font-bold
-                leading-tight
-                tracking-tight
-                text-[#082b3a]
-                sm:text-5xl
-                lg:text-6xl
-                xl:text-7xl
-              "
-            >
-
-              Healthcare
-
-              <span
-                className="
-                  block
-                  bg-gradient-to-r
-                  from-[#087f91]
-                  via-[#19b7c8]
-                  to-[#087f91]
-                  bg-clip-text
-                  text-transparent
-                "
-              >
-                management,
+            {/* Platform badge */}
+            <div className="landing-enter mb-8 inline-flex items-center gap-2.5 rounded-full border border-[#ccecef] bg-white/85 px-5 py-3 shadow-[0_3px_12px_rgba(8,127,145,0.05)] backdrop-blur-md">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#18a875]/40" />
+                <span className="relative h-2.5 w-2.5 rounded-full bg-[#18a875]" />
               </span>
 
-              made simple.
+              <span className="text-sm font-bold tracking-tight text-[#176b78]">
+                MediAssist Healthcare Platform
+              </span>
+            </div>
 
+            {/* Main heading */}
+            <h1 className="landing-enter landing-delay-1 text-[clamp(3rem,5.2vw,5.5rem)] font-extrabold leading-[1.03] tracking-[-0.055em] text-[#082b3a]">
+              Healthcare
+              <span className="block bg-gradient-to-r from-[#087f91] via-[#19b7c8] to-[#087f91] bg-clip-text text-transparent">
+                management,
+              </span>
+              <span className="block">made simple.</span>
             </h1>
 
             {/* Description */}
-            <p
-              className="
-                mx-auto
-                mt-6
-                max-w-xl
-                text-sm
-                leading-7
-                text-[#6c8188]
-                sm:text-base
-                lg:mx-0
-              "
-            >
-              A secure workspace designed for MediAssist administrators
-              and doctors to manage healthcare operations efficiently.
+            <p className="landing-enter landing-delay-2 mt-7 max-w-[650px] text-base leading-[1.8] text-[#415c69] sm:text-lg">
+              A secure workspace designed for MediAssist administrators and
+              doctors to manage healthcare operations efficiently.
             </p>
 
-            {/* Role Cards */}
-            <div
-              className="
-                mt-10
-                grid
-                grid-cols-1
-                gap-4
-                sm:grid-cols-2
-              "
-            >
+            {/* Role selection */}
+            <div className="landing-enter landing-delay-3 mt-9 grid max-w-[750px] grid-cols-1 gap-5 sm:grid-cols-2">
 
-              {/* ADMIN */}
+              {/* Admin portal */}
               <button
                 type="button"
                 onClick={() => navigate('/admin-login')}
-                className="
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-[#dceff2]
-                  bg-white
-                  p-5
-                  text-left
-                  shadow-sm
-                  transition-all
-                  duration-500
-                  hover:-translate-y-2
-                  hover:border-[#19b7c8]
-                  hover:shadow-[0_25px_60px_rgba(8,127,145,0.16)]
-                "
+                aria-label="Open Admin Portal login"
+                className="group relative min-h-[210px] overflow-hidden rounded-[23px] border border-[#d6ebee]/90 bg-white/90 p-6 text-left shadow-[0_5px_20px_rgba(8,127,145,0.045)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[#19b7c8]/60 hover:bg-white hover:shadow-[0_22px_45px_rgba(8,127,145,0.13)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#19b7c8]/30"
               >
+                <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#e8f8fa] transition-transform duration-700 group-hover:scale-125" />
 
-                <div
-                  className="
-                    absolute
-                    -right-10
-                    -top-10
-                    h-24
-                    w-24
-                    rounded-full
-                    bg-[#19b7c8]/10
-                    transition-transform
-                    duration-700
-                    group-hover:scale-[2]
-                  "
-                />
-
-                <div
-                  className="
-                    relative
-                    flex
-                    items-center
-                    justify-between
-                  "
-                >
-
-                  <div
-                    className="
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-xl
-                      bg-[#e8f8fa]
-                      text-xl
-                      transition-all
-                      duration-500
-                      group-hover:scale-110
-                      group-hover:bg-[#087f91]
-                    "
-                  >
-                    🛡️
+                <div className="relative flex items-center justify-between">
+                  <div className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[#e6f7f8] transition-all duration-500 group-hover:scale-105 group-hover:bg-[#d2f0f2]">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
+                      <path
+                        d="M12 2.8 19 5.5v5.9c0 4.8-3 8.2-7 9.9-4-1.7-7-5.1-7-9.9V5.5l7-2.7Z"
+                        fill="#19b7c8"
+                        stroke="#087f91"
+                        strokeWidth="1.2"
+                      />
+                      <path
+                        d="m8.7 12 2.1 2.1 4.6-4.8"
+                        stroke="white"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
 
-                  <span
-                    className="
-                      text-lg
-                      text-[#087f91]
-                      transition-transform
-                      duration-500
-                      group-hover:translate-x-1
-                    "
-                  >
+                  <span className="relative text-2xl text-[#16899a] transition-transform duration-300 group-hover:translate-x-1.5">
                     →
                   </span>
-
                 </div>
 
-                <div className="relative mt-5">
-
-                  <p
-                    className="
-                      text-[10px]
-                      font-bold
-                      uppercase
-                      tracking-widest
-                      text-[#087f91]
-                    "
-                  >
+                <div className="relative mt-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.09em] text-[#087f91]">
                     Management
                   </p>
-
-                  <h2
-                    className="
-                      mt-1
-                      text-xl
-                      font-bold
-                      text-[#082b3a]
-                    "
-                  >
+                  <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[#082b3a]">
                     Admin Portal
                   </h2>
-
-                  <p
-                    className="
-                      mt-2
-                      text-xs
-                      leading-5
-                      text-[#6c8188]
-                    "
-                  >
+                  <p className="mt-3 max-w-[270px] text-sm leading-6 text-[#415c69]">
                     Manage doctors, appointments and operations.
                   </p>
-
                 </div>
-
               </button>
 
-              {/* DOCTOR */}
+              {/* Doctor portal */}
               <button
                 type="button"
                 onClick={() => navigate('/doctor-login')}
-                className="
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-[#dceff2]
-                  bg-white
-                  p-5
-                  text-left
-                  shadow-sm
-                  transition-all
-                  duration-500
-                  hover:-translate-y-2
-                  hover:border-[#19b7c8]
-                  hover:shadow-[0_25px_60px_rgba(8,127,145,0.16)]
-                "
+                aria-label="Open Doctor Portal login"
+                className="group relative min-h-[210px] overflow-hidden rounded-[23px] border border-[#d6ebee]/90 bg-white/90 p-6 text-left shadow-[0_5px_20px_rgba(8,127,145,0.045)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[#19b7c8]/60 hover:bg-white hover:shadow-[0_22px_45px_rgba(8,127,145,0.13)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#19b7c8]/30"
               >
+                <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-[#e8f8fa] transition-transform duration-700 group-hover:scale-125" />
 
-                <div
-                  className="
-                    absolute
-                    -right-10
-                    -top-10
-                    h-24
-                    w-24
-                    rounded-full
-                    bg-[#19b7c8]/10
-                    transition-transform
-                    duration-700
-                    group-hover:scale-[2]
-                  "
-                />
-
-                <div
-                  className="
-                    relative
-                    flex
-                    items-center
-                    justify-between
-                  "
-                >
-
-                  <div
-                    className="
-                      flex
-                      h-12
-                      w-12
-                      items-center
-                      justify-center
-                      rounded-xl
-                      bg-[#e8f8fa]
-                      text-xl
-                      transition-all
-                      duration-500
-                      group-hover:scale-110
-                      group-hover:bg-[#087f91]
-                    "
-                  >
-                    🩺
+                <div className="relative flex items-center justify-between">
+                  <div className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[#e6f7f8] transition-all duration-500 group-hover:scale-105 group-hover:bg-[#d2f0f2]">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" aria-hidden="true">
+                      <path
+                        d="M7 3v5M11 3v5M5 8h8V4.5A1.5 1.5 0 0 0 11.5 3h-5A1.5 1.5 0 0 0 5 4.5V8Z"
+                        stroke="#087f91"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M9 8v3.5a4 4 0 0 0 8 0V10"
+                        stroke="#087f91"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="17" cy="8" r="2" fill="#19b7c8" />
+                      <path
+                        d="M17 10v5a3 3 0 0 0 3 3h1"
+                        stroke="#087f91"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </div>
 
-                  <span
-                    className="
-                      text-lg
-                      text-[#087f91]
-                      transition-transform
-                      duration-500
-                      group-hover:translate-x-1
-                    "
-                  >
+                  <span className="relative text-2xl text-[#16899a] transition-transform duration-300 group-hover:translate-x-1.5">
                     →
                   </span>
-
                 </div>
 
-                <div className="relative mt-5">
-
-                  <p
-                    className="
-                      text-[10px]
-                      font-bold
-                      uppercase
-                      tracking-widest
-                      text-[#087f91]
-                    "
-                  >
+                <div className="relative mt-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.09em] text-[#087f91]">
                     Healthcare
                   </p>
-
-                  <h2
-                    className="
-                      mt-1
-                      text-xl
-                      font-bold
-                      text-[#082b3a]
-                    "
-                  >
+                  <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[#082b3a]">
                     Doctor Portal
                   </h2>
-
-                  <p
-                    className="
-                      mt-2
-                      text-xs
-                      leading-5
-                      text-[#6c8188]
-                    "
-                  >
+                  <p className="mt-3 max-w-[270px] text-sm leading-6 text-[#415c69]">
                     Manage appointments and patient information.
                   </p>
-
                 </div>
-
               </button>
-
             </div>
 
-            <p
-              className="
-                mt-6
-                text-xs
-                text-[#8aa0a6]
-              "
-            >
+            {/* Security note */}
+            <p className="landing-enter landing-delay-4 mt-7 flex items-center gap-2 text-sm text-[#415c69]">
+              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 shrink-0 text-[#087f91]" aria-hidden="true">
+                <path
+                  d="M12 3 19 6v5.5c0 4.4-2.8 7.7-7 9.5-4.2-1.8-7-5.1-7-9.5V6l7-3Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="m9 12 2 2 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+
               Secure access for authorized MediAssist staff only
             </p>
-
           </div>
 
-
-          {/* RIGHT 3D VISUAL */}
-          <div
-            ref={visualRef}
-            className="
-              relative
-              mx-auto
-              flex
-              h-[430px]
-              w-full
-              max-w-[500px]
-              items-center
-              justify-center
-              transition-transform
-              duration-500
-              ease-out
-            "
-          >
-
-            {/* Outer Ring */}
-            <div
-              className="
-                absolute
-                h-[330px]
-                w-[330px]
-                animate-spin-slow
-                rounded-full
-                border
-                border-dashed
-                border-[#19b7c8]/30
-              "
-            />
-
-            {/* Inner Ring */}
-            <div
-              className="
-                absolute
-                h-[270px]
-                w-[270px]
-                animate-spin-reverse
-                rounded-full
-                border
-                border-[#087f91]/20
-              "
-            />
-
-            {/* Glow */}
-            <div
-              className="
-                absolute
-                h-64
-                w-64
-                animate-pulse
-                rounded-full
-                bg-[#19b7c8]/20
-                blur-3xl
-              "
-            />
-
-            {/* Main Glass Circle */}
-            <div
-              className="
-                relative
-                flex
-                h-64
-                w-64
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-white/80
-                bg-white/70
-                shadow-[0_30px_80px_rgba(8,127,145,0.18)]
-                backdrop-blur-xl
-                animate-float
-              "
-            >
-
-              <div
-                className="
-                  flex
-                  h-44
-                  w-44
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-gradient-to-br
-                  from-[#e8f8fa]
-                  to-white
-                  shadow-inner
-                "
-              >
-
-                <div
-                  className="
-                    flex
-                    h-28
-                    w-28
-                    items-center
-                    justify-center
-                    rounded-3xl
-                    bg-[#087f91]
-                    text-5xl
-                    shadow-[0_15px_40px_rgba(8,127,145,0.35)]
-                    animate-float-reverse
-                  "
-                >
-                  ⚕
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* Floating Doctor Card */}
-            <div
-              className="
-                absolute
-                left-0
-                top-16
-                rounded-2xl
-                border
-                border-white/80
-                bg-white/90
-                px-4
-                py-3
-                shadow-lg
-                backdrop-blur-xl
-                animate-float-small
-              "
-            >
-
-              <div className="flex items-center gap-3">
-
-                <div
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-[#e8f8fa]
-                  "
-                >
-                  👨‍⚕️
-                </div>
-
-                <div>
-
-                  <p className="text-[10px] text-[#8aa0a6]">
-                    Healthcare
-                  </p>
-
-                  <p className="text-xs font-bold text-[#082b3a]">
-                    Doctor Portal
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* Floating Admin Card */}
-            <div
-              className="
-                absolute
-                bottom-16
-                right-0
-                rounded-2xl
-                border
-                border-white/80
-                bg-white/90
-                px-4
-                py-3
-                shadow-lg
-                backdrop-blur-xl
-                animate-float-small-reverse
-              "
-            >
-
-              <div className="flex items-center gap-3">
-
-                <div
-                  className="
-                    flex
-                    h-9
-                    w-9
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-[#e8f8fa]
-                  "
-                >
-                  🛡️
-                </div>
-
-                <div>
-
-                  <p className="text-[10px] text-[#8aa0a6]">
-                    Management
-                  </p>
-
-                  <p className="text-xs font-bold text-[#082b3a]">
-                    Admin Portal
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* Floating Dots */}
-            <span
-              className="
-                absolute
-                right-16
-                top-12
-                h-3
-                w-3
-                animate-ping
-                rounded-full
-                bg-[#19b7c8]
-              "
-            />
-
-            <span
-              className="
-                absolute
-                bottom-10
-                left-20
-                h-2
-                w-2
-                animate-pulse
-                rounded-full
-                bg-[#087f91]
-              "
-            />
-
-          </div>
-
+          {/* Space for the hospital artwork */}
+          <div className="hidden min-h-[500px] lg:block" aria-hidden="true" />
         </section>
-
       </main>
 
-      {/* Animation CSS */}
+      {/* Hospital movement and landing animations */}
       <style>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-
-          50% {
-            transform: translateY(-14px);
-          }
+        .hospital-flow {
+          top: 0;
+          right: -2%;
+          width: 64%;
+          height: 100%;
+          min-height: 700px;
+          transform-style: preserve-3d;
+          transform-origin: center;
+          transition: transform 300ms ease-out;
+          animation: hospitalAppear 1.2s ease-out both;
         }
 
-        @keyframes floatSmall {
-          0%, 100% {
-            transform: translateY(0px);
-          }
+        .hospital-flow-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          object-position: center right;
+          transform-origin: 70% 50%;
+          animation: hospitalMotion 12s ease-in-out infinite;
 
-          50% {
-            transform: translateY(-10px);
-          }
+          -webkit-mask-image:
+            linear-gradient(
+              to right,
+              transparent 0%,
+              rgba(0, 0, 0, 0.18) 8%,
+              black 28%,
+              black 88%,
+              transparent 100%
+            ),
+            linear-gradient(
+              to bottom,
+              transparent 0%,
+              black 8%,
+              black 88%,
+              transparent 100%
+            );
+
+          -webkit-mask-composite: source-in;
+
+          mask-image:
+            linear-gradient(
+              to right,
+              transparent 0%,
+              rgba(0, 0, 0, 0.18) 8%,
+              black 28%,
+              black 88%,
+              transparent 100%
+            ),
+            linear-gradient(
+              to bottom,
+              transparent 0%,
+              black 8%,
+              black 88%,
+              transparent 100%
+            );
+
+          mask-composite: intersect;
         }
 
-        @keyframes spinSlow {
-          from {
-            transform: rotate(0deg);
-          }
-
-          to {
-            transform: rotate(360deg);
-          }
+        .hospital-watermark-cover {
+          position: absolute;
+          right: 7%;
+          bottom: 11%;
+          width: 65px;
+          height: 65px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle,
+            #f3fbfd 15%,
+            rgba(243, 251, 253, 0.96) 45%,
+            rgba(243, 251, 253, 0) 75%
+          );
+          filter: blur(2px);
+          pointer-events: none;
         }
 
-        @keyframes spinReverse {
-          from {
-            transform: rotate(360deg);
-          }
-
-          to {
-            transform: rotate(0deg);
-          }
+        .hospital-light {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(
+              ellipse at 72% 43%,
+              rgba(25, 183, 200, 0.12),
+              transparent 52%
+            ),
+            linear-gradient(
+              to left,
+              transparent 65%,
+              rgba(243, 251, 253, 0.65) 100%
+            );
+          pointer-events: none;
+          animation: lightBreathing 9s ease-in-out infinite;
         }
 
-        @keyframes fadeIn {
+        .hospital-dot {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: #19b7c8;
+          box-shadow: 0 0 22px rgba(25, 183, 200, 0.35);
+          pointer-events: none;
+        }
+
+        .hospital-dot-one {
+          top: 28%;
+          right: 13%;
+          animation: dotFloat 4s ease-in-out infinite;
+        }
+
+        .hospital-dot-two {
+          bottom: 15%;
+          left: 22%;
+          width: 8px;
+          height: 8px;
+          background: #087f91;
+          animation: dotFloat 5s ease-in-out infinite reverse;
+        }
+
+        @keyframes hospitalAppear {
           from {
             opacity: 0;
-            transform: translateY(15px);
+            translate: 35px 0;
           }
+          to {
+            opacity: 1;
+            translate: 0 0;
+          }
+        }
 
+        @keyframes hospitalMotion {
+          0%, 100% {
+            transform: scale(1) translate3d(0, 0, 0);
+          }
+          50% {
+            transform: scale(1.045) translate3d(-8px, -7px, 0);
+          }
+        }
+
+        @keyframes lightBreathing {
+          0%, 100% {
+            opacity: 0.65;
+          }
+          50% {
+            opacity: 1;
+          }
+        }
+
+        @keyframes dotFloat {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-12px);
+          }
+        }
+
+        @keyframes landingEnter {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+          }
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
 
-        .animate-float {
-          animation: float 5s ease-in-out infinite;
+        .landing-enter {
+          animation: landingEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        .animate-float-reverse {
-          animation: float 4s ease-in-out infinite reverse;
+        .landing-delay-1 { animation-delay: 100ms; }
+        .landing-delay-2 { animation-delay: 200ms; }
+        .landing-delay-3 { animation-delay: 300ms; }
+        .landing-delay-4 { animation-delay: 400ms; }
+
+        @media (max-width: 1023px) {
+          .hospital-flow {
+            top: 40px;
+            right: -20%;
+            width: 85%;
+            height: 560px;
+            min-height: 0;
+            opacity: 0.19;
+          }
+
+          .hospital-flow-image {
+            object-position: center right;
+          }
+
+          .hospital-watermark-cover {
+            right: 8%;
+            bottom: 12%;
+          }
+
+          .hospital-light {
+            display: none;
+          }
         }
 
-        .animate-float-small {
-          animation: floatSmall 4s ease-in-out infinite;
-        }
+        @media (max-width: 639px) {
+          .hospital-flow {
+            top: 100px;
+            right: -48%;
+            width: 120%;
+            height: 440px;
+            opacity: 0.12;
+          }
 
-        .animate-float-small-reverse {
-          animation: floatSmall 5s ease-in-out infinite reverse;
-        }
-
-        .animate-spin-slow {
-          animation: spinSlow 20s linear infinite;
-        }
-
-        .animate-spin-reverse {
-          animation: spinReverse 15s linear infinite;
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 0.8s ease-out;
+          .hospital-watermark-cover {
+            width: 40px;
+            height: 40px;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
+          .landing-enter,
+          .hospital-flow,
+          .hospital-flow-image,
+          .hospital-light,
+          .hospital-dot {
+            animation: none !important;
+          }
+
           *,
           *::before,
           *::after {
+            scroll-behavior: auto !important;
+            transition-duration: 0.01ms !important;
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
           }
         }
       `}</style>
-
     </div>
   )
 }
